@@ -14,6 +14,8 @@ def main():
                     if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
                         args = args[1:-1]
                         print(args)
+                    else:
+                        print(args)
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd"}
