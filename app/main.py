@@ -10,8 +10,10 @@ def main():
         command = input()
         if command.strip().lower() != "exit 0":
             if command.strip().lower().split()[0] == "echo":
-                    args = command.strip().split()[1:]
-                    print(" ".join(args))
+                    args = command[5:].strip()
+                    if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
+                        args = args[1:-1]
+                        print(args)
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd"}
