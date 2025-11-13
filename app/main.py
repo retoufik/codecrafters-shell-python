@@ -11,7 +11,7 @@ def main():
                     args = command.strip().split()[1:]
                     print(" ".join(args))
             else:
-                sys.stdout.write(f"{command}: Command not found\n")
+                sys.stdout.write(f"{command}: command not found\n")
             continue
         break
 
