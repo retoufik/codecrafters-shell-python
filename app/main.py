@@ -33,7 +33,7 @@ def main():
                 if not args:
                     sys.stdout.write("cat: missing operand\n")
                 else:
-                    file_paths = args.split("' ")
+                    file_paths = args.split()
                     for file_path in file_paths:
                         try:
                             with open(file_path, 'r') as file:
