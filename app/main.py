@@ -25,26 +25,24 @@ def main():
                             print(f"{arg} is {found_path}")
                         else:
                             print(f"{arg}: not found")
+            elif command.strip().lower().split()[0] == "pwd":
+                print(os.getcwd())
             else:
                 parts = command.strip().split()
                 if not parts:
                     continue
-                cmd = parts[0]
-                cmd_args = parts[1:]
-
-                # find executable in PATH (handles PATHEXT on Windows)
-                found_path = shutil.which(cmd)
+                exe = parts[0]
+                exe_args = parts[1:]
+                found_path = shutil.which(exe)
                 if found_path:
-                    # run the program and let its output go to the shell's stdout/stderr
-                    # use 'executable' so argv[0] stays as the typed command name
                     try:
-                        subprocess.run([cmd] + cmd_args, executable=found_path)
+                        subprocess.run([exe] + exe_args, executable=found_path)
                     except FileNotFoundError:
-                        sys.stdout.write(f"{cmd}: not found\n")
+                        sys.stdout.write(f"{exe}: not found\n")
                     except Exception as e:
-                        sys.stdout.write(f"{cmd}: {e}\n")
+                        sys.stdout.write(f"{exe}: {e}\n")
                 else:
-                    sys.stdout.write(f"{cmd}: not found\n")
+                    sys.stdout.write(f"{exe}: not found\n")
             continue
         break
 
