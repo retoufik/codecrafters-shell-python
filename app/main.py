@@ -1,5 +1,6 @@
+import os
 import sys
-import string
+import shutil
 
 def main():
     # TODO: Uncomment the code below to pass the first stage
@@ -12,11 +13,15 @@ def main():
                     print(" ".join(args))
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
+                    builtins = {"echo", "type", "exit"}
                     for arg in args:
-                        if arg.lower() in ["echo", "type", "exit"]:
+                        if arg.lower() in builtins:
                             print(f"{arg} is a shell builtin")
-                        elif arg.lower() in ["ls", "cat", "grep"]:
-                            print(f"{arg} is /bin/{arg}")
+                            continue
+
+                        found_path = shutil.which(arg)
+                        if found_path:
+                            print(f"{arg} is {found_path}")
                         else:
                             print(f"{arg}: not found")
             else:
