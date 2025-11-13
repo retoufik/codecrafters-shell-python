@@ -15,7 +15,8 @@ def main():
                         args = args[1:-1]
                         print(args)
                     else:
-                        print(args)
+                        args = args.strip().split()
+                        print(' '.join(args))
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd"}
