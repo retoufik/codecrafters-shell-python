@@ -70,7 +70,7 @@ def main():
                             sys.stdout.write(f"cat: {file_path}: {e}\n")
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
-                    builtins = {"echo", "type", "exit","pwd","cd","cat"}
+                    builtins = {"echo", "type", "exit","pwd","cd"}
                     for arg in args:
                         if arg.lower() in builtins:
                             print(f"{arg} is a shell builtin")
