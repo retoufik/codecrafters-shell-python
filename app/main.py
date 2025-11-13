@@ -14,7 +14,7 @@ def main():
                     print(" ".join(args))
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
-                    builtins = {"echo", "type", "exit"}
+                    builtins = {"echo", "type", "exit","pwd"}
                     for arg in args:
                         if arg.lower() in builtins:
                             print(f"{arg} is a shell builtin")
