@@ -14,7 +14,7 @@ def main():
                     print(" ".join(args))
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
-                    builtins = {"echo", "type", "exit","pwd"}
+                    builtins = {"echo", "type", "exit","pwd","cd"}
                     for arg in args:
                         if arg.lower() in builtins:
                             print(f"{arg} is a shell builtin")
@@ -27,6 +27,18 @@ def main():
                             print(f"{arg}: not found")
             elif command.strip().lower().split()[0] == "pwd":
                 print(os.getcwd())
+            elif command.strip().lower().split()[0] == "cd":
+                args = command.strip().split()[1:]
+                if len(args) == 0:
+                    target_dir = os.path.expanduser("~")
+                else:
+                    target_dir = args[0]
+                try:
+                    os.chdir(target_dir)
+                except FileNotFoundError:
+                    sys.stdout.write(f"cd: {target_dir}: No such file or directory\n")
+                except Exception as e:
+                    sys.stdout.write(f"cd: {e}\n")
             else:
                 parts = command.strip().split()
                 if not parts:
