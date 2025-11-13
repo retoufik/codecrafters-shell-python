@@ -10,25 +10,38 @@ def main():
         command = input()
         if command.strip().lower() != "exit 0":
             if command.strip().lower().split()[0] == "echo":
-                    args = command[5:].strip()
-                    if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
-                        args = args[1:-1]
-                        for arg in args:
-                            if arg =='"':
-                                args = args.replace(arg, "")
-                        print(args)
-                    else:
-                        hint = False
-                        for arg in args:
-                            if arg=="'" or arg =='"':
-                                args = args.replace(arg, "")
-                                hint = True
-                        if hint:
-                            print(args)
-                        else:
-                            args_split = args.split()
-                            print(" ".join(args_split))
-                            
+                    raw = command[5:].lstrip()
+                    args = []
+                    cur = []
+                    i = 0
+                    n = len(raw)
+                    in_single = False
+                    in_double = False
+                    while i < n:
+                        ch = raw[i]
+                        if ch == "'" and not in_double:
+                            in_single = not in_single
+                            i += 1
+                            continue
+                        if ch == '"' and not in_single:
+                            in_double = not in_double
+                            i += 1
+                            continue
+                        if ch.isspace() and not in_single and not in_double:
+                            if cur:
+                                args.append(''.join(cur))
+                                cur = []
+                            # skip consecutive spaces
+                            while i < n and raw[i].isspace():
+                                i += 1
+                            continue
+                        cur.append(ch)
+                        i += 1
+                    if cur:
+                        args.append(''.join(cur))
+
+                    print(" ".join(args))
+                    continue
             elif command.strip().lower().split()[0] == "cat":
                 args = command[3::].strip()
                 if not args:
