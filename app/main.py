@@ -33,11 +33,34 @@ def main():
                 if not args:
                     sys.stdout.write("cat: missing operand\n")
                 else:
-                    file_paths = args.split()
+                    file_paths = []
+                    current_arg = ""
+                    in_quotes = False
+                    quote_char = None
+                    
+                    for char in args:
+                        if char in ["'", '"'] and not in_quotes:
+                            in_quotes = True
+                            quote_char = char
+                        elif char == quote_char and in_quotes:
+                            in_quotes = False
+                            quote_char = None
+                            if current_arg:
+                                file_paths.append(current_arg)
+                                current_arg = ""
+                        elif char == ' ' and not in_quotes:
+                            if current_arg:
+                                file_paths.append(current_arg)
+                                current_arg = ""
+                        else:
+                            current_arg += char
+                    
+                    if current_arg:
+                        file_paths.append(current_arg)
                     for file_path in file_paths:
                         try:
-                            with open(file_path, 'r') as file:
-                                content = file.read()
+                            with open(file_path, 'r') as f:
+                                content = f.read()
                                 print(content, end='')
                         except FileNotFoundError:
                             sys.stdout.write(f"cat: {file_path}: No such file or directory\n")
