@@ -33,8 +33,7 @@ def main():
                 for filename in args:
                     try:
                         with open(filename, 'r') as f:
-                            content = f.read()
-                            print(content, end='')
+                            sys.stdout.write(f.read())
                     except FileNotFoundError:
                         sys.stdout.write(f"cat: {filename}: No such file or directory\n")
                     except Exception as e:
