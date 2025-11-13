@@ -28,9 +28,20 @@ def main():
                         else:
                             args_split = args.split()
                             print(" ".join(args_split))
+            elif command.strip().lower().split()[0] == "cat":
+                args = command.strip().split()[1:]
+                for filename in args:
+                    try:
+                        with open(filename, 'r') as f:
+                            content = f.read()
+                            print(content, end='')
+                    except FileNotFoundError:
+                        sys.stdout.write(f"cat: {filename}: No such file or directory\n")
+                    except Exception as e:
+                        sys.stdout.write(f"cat: {e}\n")
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
-                    builtins = {"echo", "type", "exit","pwd","cd"}
+                    builtins = {"echo", "type", "exit","pwd","cd","cat"}
                     for arg in args:
                         if arg.lower() in builtins:
                             print(f"{arg} is a shell builtin")
