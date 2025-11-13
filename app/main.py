@@ -15,6 +15,8 @@ def main():
                     for arg in args:
                         if arg.lower() in ["echo", "type", "exit"]:
                             print(f"{arg} is a shell builtin")
+                        elif arg.lower() in ["ls", "cat", "grep"]:
+                            print(f"{arg} is /usr/bin/{arg}")
                         else:
                             print(f"{arg}: not found")
             else:
