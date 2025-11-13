@@ -29,15 +29,29 @@ def main():
                             args_split = args.split()
                             print(" ".join(args_split))
             elif command.strip().lower().split()[0] == "cat":
-                args = command.strip().split()[1:]
-                for filename in args:
+                args = command[3::].strip()
+                if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
+                    args = args[1:-1]
+                    for arg in args:
+                        if arg=="'" or arg =='"':
+                            args = args.replace(arg, "")
                     try:
-                        with open(filename, 'r') as f:
+                        with open(args, 'r') as f:
                             sys.stdout.write(f.read())
                     except FileNotFoundError:
-                        sys.stdout.write(f"cat: {filename}: No such file or directory\n")
+                        sys.stdout.write(f"cat: {args}: No such file or directory\n")
                     except Exception as e:
                         sys.stdout.write(f"cat: {e}\n")
+                else:
+                    args_split = args.split()
+                    for file_name in args_split:
+                        try:
+                            with open(file_name, 'r') as f:
+                                sys.stdout.write(f.read())
+                        except FileNotFoundError:
+                            sys.stdout.write(f"cat: {file_name}: No such file or directory\n")
+                        except Exception as e:
+                            sys.stdout.write(f"cat: {e}\n")
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd","cat"}
