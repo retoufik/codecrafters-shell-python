@@ -13,10 +13,21 @@ def main():
                     args = command[5:].strip()
                     if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
                         args = args[1:-1]
+                        for arg in args:
+                            if arg=="'" or arg =='"':
+                                args = args.replace(arg, "")
                         print(args)
                     else:
-                        args = args.strip().split()
-                        print(' '.join(args))
+                        hint = False
+                        for arg in args:
+                            if arg=="'" or arg =='"':
+                                args = args.replace(arg, "")
+                                hint = True
+                        if hint:
+                            print(args)
+                        else:
+                            args_split = args.split()
+                            print(" ".join(args_split))
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd"}
