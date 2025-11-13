@@ -31,6 +31,8 @@ def main():
                 args = command.strip().split()[1:]
                 if len(args) == 0:
                     target_dir = os.path.expanduser("~")
+                elif args[0] == "~":
+                    target_dir = os.getenv("HOME")
                 else:
                     target_dir = args[0]
                 try:
