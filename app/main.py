@@ -30,28 +30,21 @@ def main():
                             print(" ".join(args_split))
             elif command.strip().lower().split()[0] == "cat":
                 args = command[3::].strip()
-                if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
-                    args = args[1:-1]
-                    for arg in args:
-                        if arg=="'" or arg =='"':
-                            args = args.replace(arg, "")
-                    try:
-                        with open(args, 'r') as f:
-                            sys.stdout.write(f.read())
-                    except FileNotFoundError:
-                        sys.stdout.write(f"cat: {args}: No such file or directory\n")
-                    except Exception as e:
-                        sys.stdout.write(f"cat: {e}\n")
+                if not args:
+                    sys.stdout.write("cat: missing operand\n")
                 else:
-                    args_split = args.split()
-                    for file_name in args_split:
+                    file_paths = args.split("' ")
+                    for file_path in file_paths:
                         try:
-                            with open(file_name, 'r') as f:
-                                sys.stdout.write(f.read())
+                            with open(file_path, 'r') as file:
+                                content = file.read()
+                                print(content, end='')
                         except FileNotFoundError:
-                            sys.stdout.write(f"cat: {file_name}: No such file or directory\n")
+                            sys.stdout.write(f"cat: {file_path}: No such file or directory\n")
+                        except IsADirectoryError:
+                            sys.stdout.write(f"cat: {file_path}: Is a directory\n")
                         except Exception as e:
-                            sys.stdout.write(f"cat: {e}\n")
+                            sys.stdout.write(f"cat: {file_path}: {e}\n")
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd","cat"}
