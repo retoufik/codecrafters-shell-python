@@ -7,8 +7,12 @@ def main():
         sys.stdout.write("$ ")
         command = input()
         if command.strip().lower() != "exit 0":
-            print(f"{command}: command not found")
-            continue
+            if command.strip().lower().split()[0]== "echo":
+                    args = command.strip().split()[1:]
+                    print(" ".join(args))
+            else:
+                sys.stdout.write(f"{command} : Command not found\n")
+        continue
         break
 
 
