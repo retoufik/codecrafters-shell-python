@@ -14,7 +14,7 @@ def main():
                     if args.startswith('"') and args[-1].endswith('"') or args.startswith("'") and args[-1].endswith("'"):
                         args = args[1:-1]
                         for arg in args:
-                            if arg=="'" or arg =='"':
+                            if arg =='"':
                                 args = args.replace(arg, "")
                         print(args)
                     else:
@@ -28,6 +28,7 @@ def main():
                         else:
                             args_split = args.split()
                             print(" ".join(args_split))
+                            
             elif command.strip().lower().split()[0] == "cat":
                 args = command[3::].strip()
                 if not args:
@@ -68,6 +69,7 @@ def main():
                             sys.stdout.write(f"cat: {file_path}: Is a directory\n")
                         except Exception as e:
                             sys.stdout.write(f"cat: {file_path}: {e}\n")
+
             elif command.strip().lower().split()[0] == "type":
                     args = command.strip().split()[1:]
                     builtins = {"echo", "type", "exit","pwd","cd"}
@@ -81,8 +83,10 @@ def main():
                             print(f"{arg} is {found_path}")
                         else:
                             print(f"{arg}: not found")
+
             elif command.strip().lower().split()[0] == "pwd":
                 print(os.getcwd())
+
             elif command.strip().lower().split()[0] == "cd":
                 args = command.strip().split()[1:]
                 if len(args) == 0:
@@ -97,6 +101,7 @@ def main():
                     sys.stdout.write(f"cd: {target_dir}: No such file or directory\n")
                 except Exception as e:
                     sys.stdout.write(f"cd: {e}\n")
+
             else:
                 parts = command.strip().split()
                 if not parts:
