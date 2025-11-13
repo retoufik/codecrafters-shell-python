@@ -1,6 +1,7 @@
 import os
 import sys
 import shutil
+import subprocess
 
 def main():
     # TODO: Uncomment the code below to pass the first stage
@@ -25,7 +26,25 @@ def main():
                         else:
                             print(f"{arg}: not found")
             else:
-                sys.stdout.write(f"{command}: command not found\n")
+                parts = command.strip().split()
+                if not parts:
+                    continue
+                cmd = parts[0]
+                cmd_args = parts[1:]
+
+                # find executable in PATH (handles PATHEXT on Windows)
+                found_path = shutil.which(cmd)
+                if found_path:
+                    # run the program and let its output go to the shell's stdout/stderr
+                    # use 'executable' so argv[0] stays as the typed command name
+                    try:
+                        subprocess.run([cmd] + cmd_args, executable=found_path)
+                    except FileNotFoundError:
+                        sys.stdout.write(f"{cmd}: not found\n")
+                    except Exception as e:
+                        sys.stdout.write(f"{cmd}: {e}\n")
+                else:
+                    sys.stdout.write(f"{cmd}: not found\n")
             continue
         break
 
